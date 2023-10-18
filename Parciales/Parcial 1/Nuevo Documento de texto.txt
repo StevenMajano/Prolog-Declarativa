@@ -1,0 +1,26 @@
+% Reglas para encontrar un camino desde un lugar de origen hasta un lugar de destino
+desea_conocer_v2(X, Y) :-
+    abolish(eslabon, 1),
+    assert(eslabon(X)),
+    desea_conocer_v2_rec(X, Y),
+    writeln(X).
+
+desea_conocer_v2_rec(X, Y) :-
+    conoce(X, Y),
+    writeln(Y),
+    assert(eslabon(Y)),
+    !.
+
+desea_conocer_v2_rec(X, _) :-
+    conoce(X, Z),
+    eslabon(Z),
+    fail.
+
+desea_conocer_v2_rec(X, Y) :-
+    conoce(X, Z),
+    not(eslabon(Z)),
+    assert(eslabon(Z)),
+    desea_conocer_v2_rec(Z, Y),
+    writeln(Z),
+    !.
+
